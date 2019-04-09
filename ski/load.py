@@ -62,20 +62,20 @@ for row in [dict(row) for row in cur.fetchall()]:
         # M.save()
 
 # def load_geography():
-#     cur.execute('SELECT * FROM Geography')
-#     for row in [dict(row) for row in cur.fetchall()]:
-#         S = State.objects.get(state_name=row['State'])
-#         try:
-#             M = Mountain.objects.get(name=row['Name'], state_name=S)
-#             # print(M)
-#         except:
-#             continue
-#         try:
-#             G = Geography.objects.get(mountain=M)
-#         except:
-#             if row['Latitude'] == 'Error':
-#                 row['Latitude'] = None
-#             if row['Longitude'] == 'Error':
-#                 row['Longitude'] = None
-#             G = Geography(mountain=M,latitude=row['Latitude'],longitude=row['Longitude'])
-#             G.save()
+cur.execute('SELECT * FROM Geography')
+for row in [dict(row) for row in cur.fetchall()]:
+    S = State.objects.get(state_name=row['State'])
+    try:
+        M = Mountain.objects.get(name=row['Name'], state_name=S)
+        # print(M)
+    except:
+        continue
+    try:
+        G = Geography.objects.get(mountain=M)
+    except:
+        if row['Latitude'] == 'Error':
+            row['Latitude'] = None
+        if row['Longitude'] == 'Error':
+            row['Longitude'] = None
+        G = Geography(mountain=M,latitude=row['Latitude'],longitude=row['Longitude'])
+        G.save()
