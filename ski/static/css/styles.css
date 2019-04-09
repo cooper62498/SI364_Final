@@ -1,0 +1,20 @@
+.outside_container {
+    width: 85%;
+}
+
+.main_container {
+    padding-top: 70px;
+    padding-bottom: 10%;
+}
+
+.center-heading {
+    text-align: center;
+}
+
+.navbar-nav > li{
+  padding-left:50px;
+}
+
+.state_list {
+    font-size: 1.6em;
+}

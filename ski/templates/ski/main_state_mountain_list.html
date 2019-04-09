@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}
+Ski Mountains
+{% load static %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-sm-12">
+    <h1 class="center-heading">US States</h1>
+  </div>
+</div>
+<br>
+<div class="row">
+    <div class='col-sm-3'>
+    </div>
+    <div class='col-sm-2 center-heading'style="background-color:#a5d3e2;">
+      {% for state in state_dict_1 %}
+      <a href="/mountains/{{state.0}}" style="color:black;text-decoration: underline;">{{state.0}} ({{ state.1 }})</a>
+      <br>
+      <br>
+      {% endfor %}
+    </div>
+    <div class='col-sm-2 center-heading' style="background-color:#a5d3e2;">
+      {% for state in state_dict_2 %}
+      <a href="/mountains/{{state.0}}" style="color:black;text-decoration: underline;">{{state.0}} ({{ state.1 }})</a>
+      <br>
+      <br>
+      {% endfor %}
+    </div>
+    <div class='col-sm-2 center-heading' style="background-color:#a5d3e2;">
+      {% for state in state_dict_3 %}
+      <a href="/mountains/{{state.0}}" style="color:black;text-decoration: underline;">{{state.0}} ({{ state.1 }})</a>
+      <br>
+      <br>
+      {% endfor %}
+    </div>
+    <div class='col-sm-3'>
+    </div>
+</div>
+{% endblock %}

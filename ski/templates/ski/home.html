@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+{% block content %}
+<h1 class="center-heading">Final Project for SI 364</h1>
+<br>
+<h5 class="center-heading">Created by <a href='https://www.github.com/cooper62498'
+    target="_blank">Cooper Seligson</a></h5>
+<br>
+<div class="row">
+  <div class="col-sm-12">
+    <h3 class="center-heading">Highest Snowfall Map</h3>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-1">
+  </div>
+  <div class="col-sm-10">
+    <br>
+    {% autoescape off %}{{ plot_url }}{% endautoescape %}
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-sm-1">
+  </div>
+  <div class="col-sm-4" style="background-color:#a5d3e2;">
+    <h3 class="center-heading">Most Favorited Mountains</h3>
+    {% if comments.count < 1 %} <ul>
+      <li>There are no comments to display</li>
+      </ul>
+      {% else %}
+      <ol>
+        {% for fav_mount in fav_mountains %}
+        <li>
+          <p>
+            <a href="{% url 'mountain' fav_mount.mountain.state_name fav_mount.mountain.name %}"
+              style="color:black;"><u>{{ fav_mount.mountain.name }}</u></a> |
+            {{ fav_mount.mountain_id__count }} Favorites
+          </p>
+        </li>
+        {% endfor %}
+      </ol>
+      {% endif %}
+  </div>
+  <div class="col-sm-2">
+  </div>
+  <div class="col-sm-4" style="background-color:#a5d3e2;">
+    <h3 class="center-heading">Highest 24 Hour Snowfall</h3>
+    <ol>
+      {% for mount in high_snow %}
+      <li>
+        <p>
+          <a href="{% url 'mountain' mount.state_name mount.name %}" style="color:black;"><u>{{ mount.name }}</u></a>
+          | {{ mount.new_snow }} Inches
+        </p>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-sm-1">
+  </div>
+  <div class="col-sm-10" style="background-color:#a5d3e2;">
+    <h3 class="center-heading">Most Recent Comments</h3>
+    {% if comments.count < 1 %} <ul>
+      <li>There are no comments to display</li>
+      </ul>
+      {% else %}
+      <ul>
+        {% for comment in comments %}
+        <li><b>{{ comment.owner.username }} about <a href="{% url 'mountain' comment.mountain.state_name comment.mountain.name %}"
+              style="color:black;"><u>{{ comment.mountain.name }}</u></a>
+            ({{ comment.updated_at|naturaltime }})</b>
+          <br> {{ comment.text }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+  </div>
+</div>
+{% endblock %}

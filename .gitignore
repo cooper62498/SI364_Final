@@ -1,0 +1,6 @@
+__pycache__
+*.swp
+*.sqlite3
+*206
+secrets.py
+github_settings.py

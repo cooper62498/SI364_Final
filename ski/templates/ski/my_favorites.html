@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+	{% block title %}
+	Ski
+	{% load static %}
+	{% endblock %}
+
+	{% block content %}
+	<h1 class="center-heading">{{ user.username }}'s Favorite Mountains</h1>
+	<div class="row">
+	    <div class='col-sm-1'>
+	    </div>
+	    <div class='col-sm-10' style="background-color:PaleGoldenRod;">
+	        {% if mountains.count < 1 %}
+	        <br>
+	        <h2 class="center-heading">You have no Favorite Mountains</h2>
+	        <h4 class="center-heading">Click the star next to a mountain to add it to your favroites</h4>
+	        {% else %}
+	        <ul>
+	            {% for mountain in mountains %}
+	                <li class="state_list"><a href="/mountains/{{mountain.state_name}}/{{mountain.name}}">{{ mountain.name }} </a>
+	                    <a href="/mountains/{{mountain.state_name}}">({{ mountain.state_name }})</a>
+	                    {% if user.is_authenticated %}
+	                    <a href="#" onclick=
+	                        "favPost('{% url 'mountain_unfavorite' mountain.state_name mountain.name %}', {{ mountain.id }} );return false;"
+	                        {% if mountain.id not in favorites %} style="display: none;" {% endif %}
+	                        id="favorite_star_{{mountain.id}}">
+	                    <span class="fa-stack" style="vertical-align: middle;">
+	                    <i class="fa fa-star fa-stack-1x" style="color: yellow;"></i>
+	                    <i class="fa fa-star-o fa-stack-1x"></i>
+	                    </span>
+	                    </a>
+	                    <a href="#" onclick=
+	                         "favPost('{% url 'mountain_favorite' mountain.state_name mountain.name %}', {{ mountain.id }} );return false;"
+	                        {% if mountain.id in favorites %} style="display: none;" {% endif %}
+	                        id="unfavorite_star_{{mountain.id}}">
+	                    <span class="fa-stack" style="vertical-align: middle;">
+	                    <i class="fa fa-star fa-stack-1x" style="display: none; color: yellow;"></i>
+	                    <i class="fa fa-star-o fa-stack-1x"></i>
+	                    </span>
+	                    </a>
+	                    {% endif %}
+	                </li>
+	            {% endfor %}
+				{% endif %}
+	        </ul>
+	    </div>
+	</div>
+	<script>
+	function favPost(url, mountain_id) {
+	    fetch(url, {
+	        method: "POST", // *GET, POST, PUT, DELETE, etc.
+	        mode: "cors", // no-cors, cors, *same-origin
+	        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+	        credentials: "same-origin", // include, *same-origin, omit
+	        headers: {
+	            "Content-Type": "application/x-www-form-urlencoded",
+	        },
+	        redirect: "follow", // manual, *follow, error
+	        referrer: "no-referrer", // no-referrer, *client
+	    }).then(function(data) {
+	        console.log(url, 'finished');
+	        $("#unfavorite_star_"+mountain_id).toggle();
+	        $("#favorite_star_"+mountain_id).toggle();
+	    }).catch(function() {
+	        console.log(url, 'error');
+	    })
+	}
+	</script>
+	{% endblock %}

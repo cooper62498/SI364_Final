@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}
+Mountain
+{% load static %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{% endblock %}
+
+{% block content %}
+<h1 class="center-heading">{{mountain.name}}</h1>
+<a href="/mountains/{{mountain.state_name}}" class="center-heading">
+  <h2>{{mountain.state_name}}</h2>
+</a>
+{% if user.is_authenticated %}
+<div class="center-heading">
+  <a href="#" onclick="favPost('{% url 'mountain_unfavorite' mountain.state_name mountain.name %}', {{ mountain.id }} );return false;"
+    {% if mountain.id not in favorites %} style="display: none;" {% endif %}
+    id="favorite_star_{{mountain.id}}">
+    <span class="fa-stack" style="vertical-align: middle;">
+      <i class="fa fa-star fa-stack-2x" style="color: yellow;"></i>
+      <i class="fa fa-star-o fa-stack-2x"></i>
+    </span>
+</a>
+  <a href="#" onclick="favPost('{% url 'mountain_favorite' mountain.state_name mountain.name %}', {{ mountain.id }} );return false;"
+    {% if mountain.id in favorites %} style="display: none;" {% endif %} id="unfavorite_star_{{mountain.id}}">
+    <span class="fa-stack" style="vertical-align: middle;">
+      <i class="fa fa-star fa-stack-2x" style="display: none; color: yellow;"></i>
+      <i class="fa fa-star-o fa-stack-2x"></i>
+    </span>
+  </a>
+</div>
+{% endif %}
+{% if mountain.id not in favorites %}
+{% if user.is_authenticated %}
+<h6 class="center-heading">(Click Star to Favorite)</h3>
+  {% endif %}
+  {% endif %}
+  <br>
+  <div class="row">
+    <div class="col">
+    </div>
+    <div class="col-sm-6" style="background-color:#a5d3e2;">
+      <br>
+      <h3 class="center-heading"><b>Mountain Information</b></h3>
+      <h5 class="center-heading"><b>Status:</b> {{mountain.status}}</h5>
+      <h5 class="center-heading"><b>Temperature:</b>
+        {{mountain.current_weather}}</h5>
+      <h5 class="center-heading"><b>Percent Open:</b> {{mountain.open_percent}}</h5>
+      <h5 class="center-heading"><b>Trails Open:</b> {{mountain.trails}}</h5>
+      <h5 class="center-heading"><b>Lifts Open:</b> {{mountain.lifts}}</h5>
+      <h5 class="center-heading"><b>Current Snow Conditons:</b>
+        {{mountain.conditions}}</h5>
+      <br>
+    </div>
+    <div class='col'>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-sm-2">
+    </div>
+    <div class="col-sm-8" style="background-color:lightgrey;">
+      <h4 class="center-heading">Comments</h4>
+      {% if user.is_authenticated %}
+      <form autocomplete="off" method="post" action="{% url 'comment_create' mountain.state_name mountain.name %}">
+        {% csrf_token %}
+        {{ comment_form|crispy }}
+        <input type="submit" value="Submit">
+      </form>
+      <br>
+      {% else %}
+      <h6 class="center-heading"><b>Login to add a comment!</b></h6>
+      {% endif %}
+      {% if comments.count < 1 %}
+      <br>
+      <h6 class="center-heading">No Comments for {{mountain.name}}</h6>
+      {% endif %}
+      {% for comment in comments %}
+      <p> {{ comment.owner.username }}: {{ comment.text }}
+        ({{ comment.updated_at|naturaltime }})
+        {% if user.id == comment.owner.id %}
+        <a href="{% url 'comment_delete' comment.id %}"><i class="fa fa-trash"></i></a>
+        {% endif %}
+      </p>
+      {% endfor %}
+    </div>
+  </div>
+  <script>
+    function favPost(url, mountain_id) {
+      fetch(url, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        mode: "cors", // no-cors, cors, *same-origin
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        redirect: "follow", // manual, *follow, error
+        referrer: "no-referrer", // no-referrer, *client
+      }).then(function(data) {
+        console.log(url, 'finished');
+        $("#unfavorite_star_" + mountain_id).toggle();
+        $("#favorite_star_" + mountain_id).toggle();
+      }).catch(function() {
+        console.log(url, 'error');
+      })
+    }
+  </script>
+  {% endblock %}
