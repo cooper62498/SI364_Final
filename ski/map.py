@@ -2,7 +2,6 @@ from ski.models import Mountain, Geography
 import plotly.plotly as py
 from plotly.offline import plot
 import plotly.graph_objs as go
-import pandas as pd
 import re
 
 
