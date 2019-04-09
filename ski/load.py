@@ -29,8 +29,8 @@ for row in [dict(row) for row in cur.fetchall()]:
         S = State.objects.get(state_name=row['State'])
     except:
         S = State(state_name=row['State'])
-        # S.save()
-        print('fail here')
+        S.save()
+        # print('fail here')
 
     try:
         M = Mountain.objects.get(name=row['MountainName'])
