@@ -19,8 +19,8 @@ def plot_map():
     'South Carolina': 'SC', 'South Dakota': 'SD', 'Tennessee': 'TN', 'Texas': 'TX',
     'Utah': 'UT', 'Vermont': 'VT', 'Virginia': 'VA', 'Washington': 'WA',
     'West Virginia': 'WV', 'Wisconsin': 'WI', 'Wyoming': 'WY'}
+
     geo = Geography.objects.values()
-    # print(Mountain.objects.get(id='2000'))
     data = []
     for x in geo:
         data.append((x['latitude'],x['longitude'], Mountain.objects.get(id=x['mountain_id'])))
@@ -28,9 +28,9 @@ def plot_map():
     max_snow = max([float(x[2].new_snow) for x in data])
     data = [ go.Scattergeo(
             locationmode = 'USA-states',
-            lon = [x[1] for x in data],
-            lat = [x[0] for x in data],
-            text = ['{} ({}) <br>{}"'.format(x[2].name,state_abbr_dict[str(x[2].state_name)],x[2].new_snow) for x in data],
+            lon = [x[1] for x in data if float(x[2].new_snow)>0],
+            lat = [x[0] for x in data if float(x[2].new_snow)>0],
+            text = ['{} ({}) <br>{}"'.format(x[2].name,state_abbr_dict[str(x[2].state_name)],x[2].new_snow) for x in data if float(x[2].new_snow)>0],
             hoverinfo='text',
             mode = 'markers', #'markers+text'
             marker = dict(
@@ -45,18 +45,17 @@ def plot_map():
                 ),
                 cmax=max_snow,
                 cmin=0,
-                color=[float(x[2].new_snow) for x in data],
+                color=[float(x[2].new_snow) for x in data if float(x[2].new_snow)>0],
                 colorbar=dict(
                     title="New Snowfall"
                 ),
                 colorscale='Jet'
 
             ),
-            customdata = [],#[]
-            )]
+        )]
 
     layout = dict(
-            # title = 'Ski Mountains<br>(Hover for mountain name)',
+            title = 'Hover over the marker for each mountains name and snowfall<br>Locations with No New snowfall are not shown',
             autosize = True,
             geo = dict(
                 scope='usa',
@@ -72,10 +71,7 @@ def plot_map():
 
     fig = go.Figure(data=data, layout=layout )
     # url = py.plot(fig, filename='US-Ski-Mountains',auto_open=False)
-    plot_div = plot(fig, output_type='div', include_plotlyjs=True,auto_open=False)
-    # print(plot_div)
+    plot_div = plot(fig, output_type='div', include_plotlyjs=True, auto_open=False)
     res = re.search('<div id="([^"]*)"', plot_div)
     div_id = res.groups()[0]
-    # print(res)
-    # plotly_url = '<iframe width="200" height="200" frameborder="0" seamless="seamless" scrolling="no" src='+url+'.embed?width=200&height=200&link=false&showlegend=false></iframe>'
     return (plot_div, div_id)

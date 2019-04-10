@@ -18,3 +18,7 @@
 .state_list {
     font-size: 1.6em;
 }
+
+.navbar-brand:hover {
+    text-decoration: underline;
+}

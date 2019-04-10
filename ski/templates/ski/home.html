@@ -22,7 +22,7 @@
 </div>
 <br>
 <div class="row">
-  <div class="col-sm-1">
+  <div class="col">
   </div>
   <div class="col-sm-4" style="background-color:#a5d3e2;">
     <h3 class="center-heading">Most Favorited Mountains</h3>
@@ -43,7 +43,7 @@
       </ol>
       {% endif %}
   </div>
-  <div class="col-sm-2">
+  <div class="col-sm-1">
   </div>
   <div class="col-sm-4" style="background-color:#a5d3e2;">
     <h3 class="center-heading">Highest 24 Hour Snowfall</h3>
@@ -58,12 +58,14 @@
       {% endfor %}
     </ol>
   </div>
+  <div class="col">
+  </div>
 </div>
 <br>
 <div class="row">
-  <div class="col-sm-1">
+  <div class="col">
   </div>
-  <div class="col-sm-10" style="background-color:#a5d3e2;">
+  <div class="col-sm-9" style="background-color:#a5d3e2;">
     <h3 class="center-heading">Most Recent Comments</h3>
     {% if comments.count < 1 %} <ul>
       <li>There are no comments to display</li>
@@ -78,6 +80,8 @@
         {% endfor %}
       </ul>
       {% endif %}
+  </div>
+  <div class="col">
   </div>
 </div>
 {% endblock %}
