@@ -12,6 +12,8 @@ from django.db.utils import IntegrityError
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Count
 from ski.map import plot_map
+from django.db.models.functions import Cast
+from django.db.models import FloatField
 
 class SkiHomeView(View):
     def get(self, request):
@@ -21,6 +23,7 @@ class SkiHomeView(View):
         for index, match in enumerate(fav_mountains):
             fav_mountains[index]['mountain'] = Mountain.objects.get(id=match['mountain_id'])
         ctx['high_snow'] = Mountain.objects.all().order_by('-new_snow')[:5]
+        # ctx['high_snow'] = Mountain.objects.annotate(new_snow=Cast('new_snow', FloatField())).order_by('-new_snow')[:5]
         ctx['fav_mountains'] = fav_mountains
         map1 = plot_map()
         ctx['plot_url'] = map1[0]

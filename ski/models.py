@@ -14,7 +14,7 @@ class Mountain(models.Model):
     state_name = models.ForeignKey('State', on_delete=models.CASCADE, null=False)
     url = models.CharField(max_length=200)
     status = models.CharField(max_length=50)
-    new_snow = models.CharField(max_length=100, null=True)
+    new_snow = models.IntegerField(null=True)
     current_weather = models.CharField(max_length=200)
     snowpack = models.CharField(max_length=100, null=True)
     open_percent = models.CharField(max_length=100, null=True)

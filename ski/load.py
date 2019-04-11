@@ -24,6 +24,10 @@ for row in [dict(row) for row in cur.fetchall()]:
         row['OpenPercent'] = '{}%'.format(int(float(row['OpenPercent'])*100))
     if row['Base'] != "None":
         row['Base'] = '{}"'.format(row['Base'])
+    try:
+        row['NewSnow'] = int(row['NewSnow'])
+    except:
+        row['NewSnow'] = 0
 
     try:
         S = State.objects.get(state_name=row['State'])
