@@ -1,19 +1,19 @@
-from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
-from django.views import View
-from django.urls import reverse_lazy
-from ski.models import Mountain, State, Comments, Fav
-from ski.forms import CommentForm
-from ski.util import CommentDeleteView
 from django.db import connection
-from django.utils.decorators import method_decorator
-from django.db.utils import IntegrityError
-from django.views.decorators.csrf import csrf_exempt
-from django.db.models import Count
-from ski.map import plot_map
+from django.db.models import Count, FloatField
 from django.db.models.functions import Cast
-from django.db.models import FloatField
+from django.db.utils import IntegrityError
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views import View
+from django.views.decorators.csrf import csrf_exempt
+
+from ski.forms import CommentForm
+from ski.map import plot_map
+from ski.models import Comments, Fav, Mountain, State
+from ski.util import CommentDeleteView
 
 
 class SkiHomeView(View):

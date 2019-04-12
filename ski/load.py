@@ -1,8 +1,7 @@
 import csv
 import sqlite3
 
-from ski.models import State, Mountain, Comments, Geography
-
+from ski.models import Comments, Geography, Mountain, State
 
 con = sqlite3.connect("ski/snowfall.db")
 con.row_factory = sqlite3.Row

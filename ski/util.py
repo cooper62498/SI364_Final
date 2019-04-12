@@ -1,5 +1,5 @@
-from django.views.generic import DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import DeleteView
 
 
 class CommentDeleteView(LoginRequiredMixin, DeleteView):

@@ -1,6 +1,7 @@
-from django.forms import ModelForm
-from ski.models import Mountain
 from django import forms
+from django.forms import ModelForm
+
+from ski.models import Mountain
 
 
 class CommentForm(forms.Form):

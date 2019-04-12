@@ -1,5 +1,7 @@
 from django.contrib import admin
-from ski.models import State, Mountain, Comments,Geography,Fav
+
+from ski.models import Comments, Fav, Geography, Mountain, State
+
 # Register your models here.
 
 admin.site.register(State)

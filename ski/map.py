@@ -1,8 +1,10 @@
-from ski.models import Mountain, Geography
+import re
+
+import plotly.graph_objs as go
 import plotly.plotly as py
 from plotly.offline import plot
-import plotly.graph_objs as go
-import re
+
+from ski.models import Geography, Mountain
 
 
 def plot_map():

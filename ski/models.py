@@ -1,7 +1,8 @@
-from django.db import models
-from django.core.validators import MinLengthValidator
 from django.conf import settings
+from django.core.validators import MinLengthValidator
+from django.db import models
 from django.urls import reverse
+
 
 # Create your models here.
 class State(models.Model):
